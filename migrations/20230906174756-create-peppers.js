@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       heat: {
         type: Sequelize.STRING
@@ -34,7 +34,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('peppers');
-  }
+  // async down(queryInterface, Sequelize) {
+  //   await queryInterface.dropTable('peppers');
+  // }
 };
