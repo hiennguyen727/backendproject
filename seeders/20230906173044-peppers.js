@@ -40,7 +40,7 @@ module.exports = {
         {
       name: 'Habanero',
       description: `Small and bulbous, this chile, in the same family as the Scotch bonnet, is one of the hottest on the Scoville scale. If you can get past the heat, habañeros also have a fruity flavor. They are popular on Mexico's Yucatan Peninsula and in the Caribbean, where they are used to make hot sauces.`,
-      heat: 'Scoville Units - 15,0000-35,0000',
+      heat: 'Scoville Units - 15,000-35,000',
       origin: 'Amazon, South America',
       colors: 'Green, red, yellow, orange'
 
@@ -63,7 +63,7 @@ module.exports = {
         {
      name: "Chilaca (Pasilla)",
      description: "Black and wrinkly, chilacas boast a prune-like flavor with a hint of licorice. 'Chilaca' is an Aztec term meaning old or gray-haired, which is fitting given the pepper's wrinkly appearance. When dried, the chilaca is called a pasilla or chile negro, and is toasted or soaked and blended into sauces, often combined with fruit.",
-     heat: "Scoville Units - 1500-2500",
+     heat: "Scoville Units - 1,500-2,500",
      origin: "Origin - Mexico",
      colors: "Colors - Dark-reddish brown"
    },
