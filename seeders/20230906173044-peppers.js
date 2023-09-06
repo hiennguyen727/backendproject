@@ -1,14 +1,14 @@
 // 'use strict';
 
-// /** @type {import('sequelize-cli').Migration} */
-// module.exports = {
-//   async up (queryInterface, Sequelize) {
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
     
       await queryInterface.bulkInsert('peppers', [
         {
       name: 'Bell Pepper',
       description: 'Relatively large in size, the bell-shaped pepper in its immature state is green with a slightly bitter flavor. As it matures, it turns bright red and becomes sweeter. You can also find yellow, orange, white, pink, and even purple varieties. With their high water content, bell peppers will add moisture to any dish. They are also great for adding color.',
-      heat: '0',
+      heat: 'Scoville Units - 0',
       origin: 'Central and South America',
       colors: 'Green, red, yellow, orange'
 
@@ -16,7 +16,7 @@
         {
       name: 'Poblano',
       description: 'Somewhat large and heart-shaped, the poblano is common in Mexican dishes such as chiles rellenos. Are poblano peppers spicy? Yes, but only mildly spicy. At maturity, the poblano turns dark red-brown and can be dried, at which point it is referred to as an ancho or mulato. Anchos have a rich, raisin-like sweetness. The high yield of flesh to skin makes anchos great for sauces.',
-      heat: '1000-2000',
+      heat: 'Scoville Units - 1,000-2,000',
       origin: 'Puebla, Mexico',
       colors: 'Green, red'
 
@@ -24,7 +24,7 @@
         {
       name: 'Jalapeño',
       description: 'This Mexican pepper is typically plucked from the vine while still green. If allowed to ripen more, they will turn red and take on a slightly fruity flavored. Jalapeños are a tasty ingredient commonly used to in salsa and sauces. When dried, a jalapeño is called a chipotle. Smoke-dried chipotles come in two varieties: meco (mellow) and moritas (spicier). Smoky, woodsy, and spicy, chipotles are the perfect ingredient for salsas, sauces, escabeche, and adobo.',
-      heat: '3500-8000',
+      heat: 'Scoville Units - 3,500-8,000',
       origin: 'Mexico',
       colors: 'Green, red, yellow'
 
@@ -32,7 +32,7 @@
         {
       name: 'Serrano',
       description: 'Just a couple of inches long, with a tapered end, this small pepper packs quite a bit of heat. Beware: The smaller the pepper, the hotter it is. When ripe, serranos are red or yellowish orange—they can be cooked in both their ripe and unripe states. Serranos are common in Mexican and Thai cooking.',
-      heat: '6000-23000',
+      heat: 'Scoville Units - 6,000-23,000',
       origin: 'Puebla / Hidalgo, Mexico',
       colors: 'Green, red, brown, orange, yellow'
 
@@ -40,7 +40,7 @@
         {
       name: 'Habanero',
       description: `Small and bulbous, this chile, in the same family as the Scotch bonnet, is one of the hottest on the Scoville scale. If you can get past the heat, habañeros also have a fruity flavor. They are popular on Mexico's Yucatan Peninsula and in the Caribbean, where they are used to make hot sauces.`,
-      heat: '150000-350000',
+      heat: 'Scoville Units - 15,0000-35,0000',
       origin: 'Amazon, South America',
       colors: 'Green, red, yellow, orange'
 
@@ -48,7 +48,7 @@
         {
       name: 'Cayenne',
       description: 'Slender and tapered, this chile is probably most familiar in its dried, ground form—the powder known as cayenne pepper. Ground cayenne pepper is a main ingredient in the chili powder that flavors Tex-Mex dishes such as chili con carne. It is one of the spiciest types of peppers!',
-      heat: '30000-50000',
+      heat: 'Scoville Units - 30,000-50,000',
       origin: 'Cayenne, French Guiana',
       colors: 'Green, red, yellow, orange, purple.'
 
@@ -164,14 +164,14 @@
     
     ], {});
     
-  // },
+  },
 
-//   async down (queryInterface, Sequelize) {
-//     /**
-//      * Add commands to revert seed here.
-//      *
-//      * Example:
-//      * await queryInterface.bulkDelete('People', null, {});
-//      */
-//   }
-// };
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+  }
+};
