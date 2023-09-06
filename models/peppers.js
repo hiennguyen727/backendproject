@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   peppers.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     heat: DataTypes.STRING,
     origin: DataTypes.STRING,
     colors: DataTypes.STRING
