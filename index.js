@@ -9,6 +9,19 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
 
+
+app.get('/', (req, res) => {
+    res.render('homepage')
+})
+
+
+
+
+
+
+
+
+
 app.listen(3000,()=>{
     console.log('hien is a genius')
 })
