@@ -1,0 +1,192 @@
+/* EXTRA NOTES
+background-color:rgb(255, 123, 0); Orange Background Color
+background-image: linear-gradient(yellow, red); Linear Background Color
+
+*/
+
+body{
+    /* background-color: black; */
+    padding-top: 50px;
+}
+
+@font-face {
+    font-family: paragraph;
+    src: url(Assets/effortless.ttf);
+    
+  }
+
+.gridHead{
+    display: flex; 
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    padding: 5px;                  
+    }
+/* Navigation Bar */
+    .navBar{
+        display: flex;
+        width: 1000px;
+        height: 50px;
+        /* background-color:rgb(188, 188, 188); */
+        background-color:rgb(255, 123, 0);
+        align-self: center;
+        border-radius: 15px;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        /* z-index: 2; */
+        position: relative;
+    }
+/* Navagaiton Bar Linear Gradient */
+    .navBarGradient{
+        display: flex;
+        width: 1000px;
+        height: 50px;
+        background-image: linear-gradient(yellow, red);
+        align-self: center;
+        border-radius: 15px;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
+        z-index: 1;
+        opacity: 50%;
+        pointer-events: none;
+        position: absolute;
+    }
+
+    .navIcon1:hover{
+        background-color: white;
+        color: rgb(0, 0, 0);
+    }
+
+    .navIcon1{
+        display: flex;
+        width: 150px;
+        height: 50px;
+        /* background-color:rgba(143, 60, 60, 0); */
+        align-items: center;
+        justify-content: center;
+        color: rgb(255, 255, 255);
+        z-index: 2;
+        border-left: 2px solid white;
+        border-right: 1px solid white;
+        transition: all .2s;
+        
+        
+    }
+
+    .navIcon2:hover{
+        background-color: white;
+        color: rgb(0, 0, 0);
+    }
+
+    .navIcon2{
+        display: flex;
+        width: 150px;
+        height: 50px;
+        /* background-color:rgb(143, 60, 60); */
+        align-items: center;
+        justify-content: center;
+        color: rgb(255, 255, 255);
+        z-index: 2;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        transition: all .2s;
+    }
+
+    .navIcon3:hover{
+        background-color: white;
+        color: rgb(0, 0, 0);
+    }
+
+    .navIcon3{
+        display: flex;
+        width: 150px;
+        height: 50px;
+        /* background-color:rgb(143, 60, 60); */
+        align-items: center;
+        justify-content: center;
+        color: rgb(255, 255, 255);
+        z-index: 2;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        transition: all .2s;
+    }
+
+    .navIcon4:hover{
+        background-color: white;
+        color: rgb(0, 0, 0);
+    }
+
+    .navIcon4{
+        display: flex;
+        width: 150px;
+        height: 50px;
+        /* background-color:rgb(143, 60, 60); */
+        align-items: center;
+        justify-content: center;
+        color: rgb(255, 255, 255);
+        z-index: 2;
+        border-left: 1px solid white;
+        border-right: 2px solid white;
+        transition: all .2s;
+    }
+
+    .gridBody{
+        display: flex; 
+        justify-content: center;
+        padding: 20px;
+        padding-left: 25px;
+        border-radius: 20px;
+        /* background-color: rgb(255, 255, 255); */
+        margin-top: 50px;
+        }
+
+    .leftBox{
+        border: 2.5px solid rgb(255, 123, 0);
+        height: 600px;
+        width: 300px;
+        margin-right: 100px;
+        border-radius: 20px;
+    }
+
+    .rightBox{
+        border: 2.5px solid rgb(255, 123, 0);
+        height: 600px;
+        width: 1250px;
+        border-radius: 20px;
+    }
+
+   .surveyLabel{
+    color: orangered;
+   }
+
+   .leftBox{
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    padding-top: 15px;
+   }
+
+   .inputBox{
+    width: 85%;
+    height: 30px;
+    background-color: rgb(255, 255, 255);
+    padding-left: 10px;
+    margin:5px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    border-color: rgb(211, 211, 211);
+    border-style: solid;
+   }
+
+   .inputBox:focus {
+    border-color: orange !important;
+    color:orange;
+    
+  }
