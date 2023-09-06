@@ -66,7 +66,7 @@ app.post('/register', async (req, res) => {
         
       if (!user) {
         console.log('Wrong email')
-        res.status(400).render('login', { errorMessage: 'Wrong email or password' })
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
         return ;
       }
 //   console.log('ljljlkjljljljljlj',user)
@@ -77,16 +77,55 @@ app.post('/register', async (req, res) => {
         }
   
         if (result) {
-          res.render('homepage', { successMessage: 'Login successful' });
-        } else {
-          res.status(400).render('login', { errorMessage: 'Wrong email or password' });
-        }
+            res.render('homepage', { successMessage: 'Login successful' });
+          } else {
+            res.redirect('/failedlogin'); // Redirect to /failedlogin route
+          }
+          
+          
       });
     } catch (err) {
       console.error(err);
       res.status(500).render('login', { errorMessage: 'Login failed' });
     }
   });
+  app.get('/failedlogin', (req, res) => {
+    res.render('failedlogin');
+   
+  });
+  
+  
+  app.post('/failedlogin', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await User.findOne({ where:{ email:email }});
+      if (!user) {
+        console.log('Wrong email')
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
+        return ;
+      }
+        
+      
+      bcrypt.compare(password, user.password, async (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.render('failedlogin', { errorMessage: 'Login failed' });
+            }
+            
+            if (result) {
+                res.redirect('/','homepage', { successMessage: 'Login successful' });
+            } else {
+                res.status(400).render('homepage', { errorMessage: 'Wrong email or password' });
+            }
+        });
+
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('login', { errorMessage: 'Login failed' });
+    }
+});
 
 
 
