@@ -4,46 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="register.css">
     <title>Document</title>
 </head>
 
 <body>
+    <div class="body-div">
+    <div class="fieldset">
     <form action="/register" method="post">
 
         <div>
+
+            <fieldset>
             <h1>Create Account</h1>
             <% if (typeof successMessage !=='undefined' ) { %>
                 <p style="color: green;">
                     <%= successMessage %>
                 </p>
                 <% } %>
+                <% if (typeof failedMessage !=='undefined' ) { %>
+                    <p style="color: red;">
+                        <%= failedMessage %>
+                    </p>
+                    <% } %>
 
                     <% { %>
+                        
                         <label>First Name</label> <br>
-                        <input required type="text" class="blue" name="firstName" placeholder="First name" />
+                        <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
                         <br><br>
                         <label>Last Name</label> <br>
-                        <input required type="text" class="blue" name="lastName" placeholder="Last name" />
+                        <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
                         <br><br>
                         <label>Email</label> <br>
                         <input required type="email" name="email" />
                         <br><br>
                         <label>Password</label> <br>
-                        <input required type="password" name="password" placeholder="at least 8 characters" />
                         <br><br>
-                        
+                         <input required type="password" name="password" minlength="8" placeholder="at least 8 characters" />
+                        <label>Re Enter Password</label> <br>
+                        <input required type="password" name="repassword" />
                         <!-- Add this to your register.ejs file -->
 
                         <% } %>
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
+                            <div>
+                                Already have an account?<a href="/login">Sign In ▸</a>
+                            </div>
         </div>
         </div>
-        <div>
-            Already have an account?<a href="/login">Sign In ▸</a>
+        </fieldset>  
+        
+    
         </div>
-
-        </div>
+   
     </form>
+</div>
+</div>
+
+
 </body>
 
 </html>
