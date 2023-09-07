@@ -1,0 +1,14 @@
+.login-body-div {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.login-fieldset {
+    background-color: orangered;
+    width: 50%;
+    text-align: center;
+}
