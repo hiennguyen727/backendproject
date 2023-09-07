@@ -10,8 +10,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
 const port = 3001
 
-
-
 app.get('/', async(req, res) => {
     res.render('homepage')
 })
@@ -30,7 +28,7 @@ app.post('/register', async (req, res) => {
     const nameRegex = /^[A-Za-z]+$/; // Only letters
     const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
     const minLength = 8;
-    const { firstName,lastName, email, password} = req.body;
+    const { firstName,lastName, email, password, repassword} = req.body;
     const saltrounds = 10;
   
     bcrypt.hash(password, saltrounds, async (err, hash) => {
@@ -38,7 +36,9 @@ app.post('/register', async (req, res) => {
         console.log(err);
         return res.status(500).render('register', { errorMessage: 'Hashing password failed' });
       }
-  
+      if (password !== repassword){
+        return res.render('register',{failedMessage:'PASSWORD NO MATCH'})
+      }
       console.log('hashpassword:', hash);
       try {
         await User.create({
@@ -61,42 +61,47 @@ app.post('/register', async (req, res) => {
     res.render('login');
    
   });
-  
-  
+  app.get('/dashboard', (req, res) => {
+    const { email } = req.query; // Access the email parameter passed from the login route
+  res.render('dashboard',{email:email})
+    
+  });
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-  
     try {
-      const user = await User.findOne({ where:{ email:email }});
-        console.log('66', user)
-      if (!user) {
-        console.log('Wrong email')
-        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
-        return ;
-      }
-//   console.log('ljljlkjljljljljlj',user)
-      bcrypt.compare(password, user.password, async (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).render('login', { errorMessage: 'Login failed' });
+        const user = await User.findOne({ where: { email: email } });
+        
+        
+        if (!user) {
+            console.log('Wrong email');
+            res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
+            return;
         }
-  
+        
+        bcrypt.compare(password, user.password, async (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.render('login', { errorMessage: 'Login failed' });
+            }
+            
+            
         if (result) {
-            res.render('homepage', { successMessage: 'Login successful' });
-          } else {
-            res.redirect('/failedlogin'); // Redirect to /failedlogin route
-          }
-          
-          
+            
+            res.redirect(`/dashboard?email=${user.email}`);
+        } else {
+          res.redirect('/failedlogin',"failedlogin"); // Redirect to /failedlogin route
+        }
       });
-    } catch (err) {
-      console.error(err);
-      res.status(500).render('login', { errorMessage: 'Login failed' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });
+  
+  
+  
   app.get('/failedlogin', (req, res) => {
     res.render('failedlogin');
-   
   });
   
   
