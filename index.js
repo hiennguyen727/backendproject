@@ -4,8 +4,8 @@ const app = express();
 const { User } = require('./models')
 var path = require('path')
 const bcrypt = require('bcrypt');
-app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs'); 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
 const port = 3001
