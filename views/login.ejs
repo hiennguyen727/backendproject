@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
     <title>Document</title>
 </head>
 
 <body>
+    <div class="login-body-div">
+        <div class="login-fieldset">
     <form action="/login" method="post">
+        <fieldset>
 
 
 
@@ -22,8 +26,7 @@
                    
                     Password <br><input id="password" type="password" name="password" required /><br><br>
                     <% } %>
-                        </div>
-                        </div>
+                        
                         <input type="submit" class="createbtn" value="Sign IN" />
                        
                         <div>
@@ -32,8 +35,11 @@
                         <div>
                             <input type="button" class="createbtn" value="Create your PeppaPlug account" href="/register" />
                         </div>
-                        </div>
-    </form>
+                        </fieldset>
+                    
+                </div>
+                    
+                </form>
 
 
 
