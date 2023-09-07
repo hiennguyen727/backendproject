@@ -1,0 +1,43 @@
+body{
+    background-image: linear-gradient(to right, rgb(43, 15, 0), rgb(0, 0, 0));
+    /* background-color: black; */
+}
+
+/* .rotatingPepper{
+    color: yellow;
+    position: absolute;
+    right: 50px;
+    top: 120px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+
+.rotatingPepper{
+    color: yellow;
+    padding: 10px;
+    border-radius: 5px;
+    /* margin-right: 70px; */
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.navBar{
+    text-align: center;
+}
+
+/* .bodyBox1{
+    border: 5px solid orange;
+    height: 650px;
+    width: 450px;
+    margin-top: 35px;
+    margin-left: 35px;
+    border-radius: 25px;
+} */
+
+.body{
+    text-align: center;
+}
+
