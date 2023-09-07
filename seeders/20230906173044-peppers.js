@@ -111,7 +111,7 @@ module.exports = {
    },
         {
      name: "Carolina Reaper",
-     description: "The Carolina Reaper is a cultivar of the Capsicum chinense plant. Developed by American breeder Ed Currie, the pepper is red and gnarled, with a bumpy texture and small pointed tail. In 2013, Guinness World Records declared it the hottest chili pepper in the world.",
+     description: "The Carolina Reaper is a cultivar of the Capsicum chinense plant. Developed by American breeder Ed Currie, the pepper is red and gnarled, with a bumpy texture and small pointed tail. In 2013, Guinness World Records declared it the hottest chili pepper in the world.",
      heat: "Scoville Units - 2,200,000",
      origin: "Origin - Rock Hill, South Carolina",
      colors: "Colors - Red, green, yellow"
