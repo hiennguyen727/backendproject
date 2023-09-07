@@ -12,6 +12,7 @@ const port = 3001
 
 
 
+
 app.get('/', (req, res) => {
     res.render('homepage')
 })
@@ -56,42 +57,50 @@ app.post('/register', async (req, res) => {
     res.render('login');
    
   });
+  app.get('/dashboard', (req, res) => {
+    const { email } = req.query; // Access the firstName parameter passed from the login route
+  
+    if (firstName) {
+      res.render('dashboard', { welcomeMessage: `Hello, ${email}!` });
+    } else {
+      res.redirect('/login'); // Handle cases where firstName is not available
+    }
+  });
   
   
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      const user = await User.findOne({ where:{ email:email }});
-        
+      const user = await User.findOne({ where: { email: email } });
+  
       if (!user) {
-        console.log('Wrong email')
-        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
-        return ;
+        console.log('Wrong email');
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
+        return;
       }
-//   console.log('ljljlkjljljljljlj',user)
+  
       bcrypt.compare(password, user.password, async (err, result) => {
         if (err) {
           console.error(err);
-          return res.status(500).render('login', { errorMessage: 'Login failed' });
+          return res.render('login', { errorMessage: 'Login failed' });
         }
   
         if (result) {
-            res.render('homepage', { successMessage: 'Login successful' });
-          } else {
-            res.redirect('/failedlogin'); // Redirect to /failedlogin route
-          }
-          
-          
+          // Pass the user's name to the dashboard route
+          res.redirect('/dashboard', { email: user.email });
+        } else {
+          res.redirect('/failedlogin'); // Redirect to /failedlogin route
+        }
       });
-    } catch (err) {
-      console.error(err);
-      res.status(500).render('login', { errorMessage: 'Login failed' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });
+  
   app.get('/failedlogin', (req, res) => {
     res.render('failedlogin');
-   
   });
   
   
