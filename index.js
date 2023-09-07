@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { User } = require('./models')
+const { User, peppers } = require('./models')
 var path = require('path')
 const bcrypt = require('bcrypt');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -12,14 +12,18 @@ const port = 3001
 
 
 
-
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     res.render('homepage')
 })
 app.get('/register', (req, res) => {
     res.render('register')
 })
 
+app.get('/gallery', async(req, res) => {
+  const newPep = await peppers.findAll()
+  
+    res.render('gallery', {PeppaBoi: newPep})
+})
 
 app.post('/register', async (req, res) => {
     console.log('hi')
@@ -72,8 +76,8 @@ app.post('/register', async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      const user = await User.findOne({ where: { email: email } });
-  
+      const user = await User.findOne({ where:{ email:email }});
+        console.log('66', user)
       if (!user) {
         console.log('Wrong email');
         res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
