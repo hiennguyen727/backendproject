@@ -81,10 +81,10 @@ app.post('/register', async (req, res) => {
 
       console.log(userFavorites);
 
-      let pepper = {
-        name: "Grab from pepper table",
-        id: "grab from faves table"
-      }
+    //   let pepper = {
+    //     name: pepper.name,
+    //     id: User.id
+    //   }
   
       res.render('dashboard', { email: email, userId: userId, favorites: userFavorites, pepper });
     } catch (error) {
