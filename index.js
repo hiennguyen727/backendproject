@@ -1,13 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { homepage } = require('./models')
+const { User } = require('./models')
 var path = require('path')
 const bcrypt = require('bcrypt');
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs'); 
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
+const port = 3001
+
 
 
 app.get('/', (req, res) => {
@@ -17,15 +19,13 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
-app.post('/register',(req,res)=>{
-res.render('register')
-})
+
 app.post('/register', async (req, res) => {
+    console.log('hi')
     const nameRegex = /^[A-Za-z]+$/; // Only letters
     const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
     const minLength = 8;
-  
-    const { firstname,lastname, email, username, password, reenterpassword } = req.body;
+    const { firstName,lastName, email, password} = req.body;
     const saltrounds = 10;
   
     bcrypt.hash(password, saltrounds, async (err, hash) => {
@@ -37,12 +37,11 @@ app.post('/register', async (req, res) => {
       console.log('hashpassword:', hash);
       try {
         await User.create({
-          firstname,
-          lastname,
+          firstName,
+          lastName,
           email,
-          username,
-          password: hash, 
-          reenterpassword: hash
+          password: hash
+         
         });
   
         res.render('register', { successMessage: 'Registration successful' });
@@ -55,6 +54,7 @@ app.post('/register', async (req, res) => {
 
   app.get('/login', (req, res) => {
     res.render('login');
+   
   });
   
   
@@ -62,12 +62,14 @@ app.post('/register', async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      const user = await login.findOne({ where:{ email:email }});
-  
+      const user = await User.findOne({ where:{ email:email }});
+        
       if (!user) {
-        return res.status(400).render('login', { errorMessage: 'Wrong email or password' });
+        console.log('Wrong email')
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
+        return ;
       }
-  console.log('ljljlkjljljljljlj',user)
+//   console.log('ljljlkjljljljljlj',user)
       bcrypt.compare(password, user.password, async (err, result) => {
         if (err) {
           console.error(err);
@@ -75,24 +77,58 @@ app.post('/register', async (req, res) => {
         }
   
         if (result) {
-          res.render('login', { successMessage: 'Login successful' });
-        } else {
-          res.status(400).render('login', { errorMessage: 'Wrong email or password' });
-        }
+            res.render('homepage', { successMessage: 'Login successful' });
+          } else {
+            res.redirect('/failedlogin'); // Redirect to /failedlogin route
+          }
+          
+          
       });
     } catch (err) {
       console.error(err);
       res.status(500).render('login', { errorMessage: 'Login failed' });
     }
   });
+  app.get('/failedlogin', (req, res) => {
+    res.render('failedlogin');
+   
+  });
+  
+  
+  app.post('/failedlogin', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await User.findOne({ where:{ email:email }});
+      if (!user) {
+        console.log('Wrong email')
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
+        return ;
+      }
+        
+      
+      bcrypt.compare(password, user.password, async (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.render('failedlogin', { errorMessage: 'Login failed' });
+            }
+            
+            if (result) {
+                res.redirect('/','homepage', { successMessage: 'Login successful' });
+            } else {
+                res.status(400).render('homepage', { errorMessage: 'Wrong email or password' });
+            }
+        });
+
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('login', { errorMessage: 'Login failed' });
+    }
+});
 
 
 
-
-
-
-
-
-app.listen(3000,()=>{
-    console.log('hien is a genius')
+app.listen(port,()=>{
+    console.log(`Server is running on ${port}`)
 })

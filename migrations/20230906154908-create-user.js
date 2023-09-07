@@ -21,9 +21,7 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      reenterpassword: {
-        type: Sequelize.STRING
-      },
+      
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE

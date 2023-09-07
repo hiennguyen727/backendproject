@@ -2,27 +2,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('peppers', {
+    await queryInterface.createTable('Faves', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Users',
+          key:'id'
+        },
+        allowNull:false
       },
-      description: {
-        type: Sequelize.TEXT
-      },
-      heat: {
-        type: Sequelize.STRING
-      },
-      origin: {
-        type: Sequelize.STRING
-      },
-      colors: {
-        type: Sequelize.STRING
+      pepperId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:'peppers',
+          key:'id'
+        },
+        allowNull:false
       },
       createdAt: {
         allowNull: true,
@@ -34,7 +35,7 @@ module.exports = {
       }
     });
   },
-  // async down(queryInterface, Sequelize) {
-  //   await queryInterface.dropTable('peppers');
-  // }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Faves');
+  }
 };
