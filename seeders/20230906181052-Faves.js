@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     
      await queryInterface.bulkInsert('Faves', [{
-        userId: 10,
+        userId: 1,
         pepperId: 1
       }], {});
     
