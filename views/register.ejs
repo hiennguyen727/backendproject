@@ -17,6 +17,11 @@
                     <%= successMessage %>
                 </p>
                 <% } %>
+                <% if (typeof failedMessage !=='undefined' ) { %>
+                    <p style="color: red;">
+                        <%= failedMessage %>
+                    </p>
+                    <% } %>
 
                     <% { %>
                         <label>First Name</label> <br>
@@ -31,7 +36,8 @@
                         <label>Password</label> <br>
                         <input required type="password" name="password" minlength="8" placeholder="at least 8 characters" />
                         <br><br>
-                        
+                        <label>Re Enter Password</label> <br>
+                        <input required type="password" name="repassword" />
                         <!-- Add this to your register.ejs file -->
 
                         <% } %>
