@@ -166,8 +166,23 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get('/forgotpassword', (req, res) => {
+  res.render('forgotpassword');
+ 
+});
+
+app.post('/reset-password', (req, res) => {
+  const email = req.body.email;
+  const newPassword = req.body.newPassword;
+
+});
+
+app.put('/forgotpassword', (req, res) => {
+  res.render('forgotpassword');
+ 
+});
 
 
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`)
-})
+});
