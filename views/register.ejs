@@ -4,13 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="register.css">
     <title>Document</title>
 </head>
 
 <body>
+    <div class="body-div">
+    <div class="fieldset">
     <form action="/register" method="post">
 
         <div>
+
+            <fieldset>
             <h1>Create Account</h1>
             <% if (typeof successMessage !=='undefined' ) { %>
                 <p style="color: green;">
@@ -19,6 +24,7 @@
                 <% } %>
 
                     <% { %>
+                        
                         <label>First Name</label> <br>
                         <input required type="text" class="blue" name="firstName" placeholder="First name" />
                         <br><br>
@@ -30,20 +36,28 @@
                         <br><br>
                         <label>Password</label> <br>
                         <input required type="password" name="password" placeholder="at least 8 characters" />
+                        
                         <br><br>
                         
                         <!-- Add this to your register.ejs file -->
 
                         <% } %>
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
+                            <div>
+                                Already have an account?<a href="/login">Sign In ▸</a>
+                            </div>
         </div>
         </div>
-        <div>
-            Already have an account?<a href="/login">Sign In ▸</a>
+        </fieldset>  
+        
+    
         </div>
-
-        </div>
+   
     </form>
+</div>
+</div>
+
+
 </body>
 
 </html>
