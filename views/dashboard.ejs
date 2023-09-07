@@ -6,9 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-   HELLO  <%= email %> WELCOME TO THE SITE
+   Hello  <%= email %> welcome to PeppaPlug
 
-
+   <h2>Your Favorites:</h2>
+   <ul>
+     <% for (const favorite of favorites) { %>
+       <li><%= favorite.pepperId %></li>
+     <% } %>
 
 </body>
 </html>
