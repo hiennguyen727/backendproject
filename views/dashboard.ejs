@@ -1,14 +1,22 @@
+<!-- dashboard.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/dashboard.css"> <!-- Include your CSS file -->
 </head>
 <body>
-   HELLO  <%= email %> WELCOME TO THE SITE
-
-
-
+  <h1>Welcome, <%= email %>!</h1>
+  <h2>Your Favorites:</h2>
+  <div class="pepper-grid">
+    <% for (const favorite of favorites) { %>
+      <div class="pepper-card">
+        <p><%= favorite.pepper.name %></p>
+      </div>
+    <% } %>
+  </div>
 </body>
 </html>

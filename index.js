@@ -166,22 +166,12 @@ app.post('/security', async(req, res) => {
 });
 
 
-app.get('/forgotpassword', async(req, res) => {
-  res.render('forgotpassword');
+app.get('/resetpassword', async(req, res) => {
+  res.render('resetpassword');
   
 });
 
-app.post('/forgotpassword', async(req, res) => {
-  const {email} = req.body
-  const foundUser = await User.findOne({where: {email:email}})
-  if (foundUser) {
-    res.send(secQuestion)
-  }
-  res.render('forgotpassword');
- 
-});
-
-app.put('/forgotpassword', async (req, res) => {
+app.put('/resetpassword', async (req, res) => {
   const { email } = req.body;
   const foundUser = await User.findOne({ where: { email: email } });
 
@@ -191,7 +181,7 @@ app.put('/forgotpassword', async (req, res) => {
       res.render('securityQuestionPage', { question: foundUser.securityQuestion });
     } else {
       // If user doesn't have a security question, proceed with password reset
-      res.render('forgotpassword');
+      res.render('resetpassword');
     }
   } else {
     // Handle case where user with the given email is not found
@@ -206,11 +196,15 @@ app.put('/forgotpassword', async (req, res) => {
 
 // });
 
-app.put('/forgotpassword', (req, res) => {
-  res.render('forgotpassword');
+app.put('/resetpassword', (req, res) => {
+  res.render('resetpassword');
  
 });
 
+app.get('/auth', (req, res) => {
+  res.render('auth');
+ 
+});
 
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`)
