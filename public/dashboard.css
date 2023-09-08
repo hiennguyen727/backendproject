@@ -1,0 +1,33 @@
+/* dashboard.css */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  .pepper-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+    gap: 20px; /* Adjust the gap between cards */
+    padding: 20px;
+  }
+  
+  .pepper-card {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  h1 {
+    color: #333;
+  }
+  
+  h2 {
+    margin-top: 20px;
+    color: #333;
+  }
+  
