@@ -28,7 +28,7 @@ app.post('/register', async (req, res) => {
     const nameRegex = /^[A-Za-z]+$/; // Only letters
     const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
     const minLength = 8;
-    const { firstName,lastName, email, password, repassword} = req.body;
+    const { firstName,lastName, email, password, repassword, secquestion, secanswer} = req.body;
     const saltrounds = 10;
   
     bcrypt.hash(password, saltrounds, async (err, hash) => {
@@ -39,13 +39,15 @@ app.post('/register', async (req, res) => {
       if (password !== repassword){
         return res.render('register',{failedMessage:'PASSWORD NO MATCH'})
       }
-      console.log('hashpassword:', hash);
+      // console.log('hashpassword:', hash);
       try {
         await User.create({
           firstName,
           lastName,
           email,
-          password: hash
+          password: hash,
+          secQuestion:secquestion,
+          secAnswer:secanswer
          
         });
   
@@ -86,7 +88,6 @@ app.post('/register', async (req, res) => {
             
             
         if (result) {
-            
             res.redirect(`/dashboard?email=${user.email}`);
         } else {
           res.redirect('/failedlogin',"failedlogin"); // Redirect to /failedlogin route
@@ -102,6 +103,7 @@ app.post('/register', async (req, res) => {
   
   app.get('/failedlogin', (req, res) => {
     res.render('failedlogin');
+ 
   });
   
   
@@ -137,16 +139,72 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/forgotpassword', (req, res) => {
+app.get('/security', async(req, res) => {
+  res.render('security');
+})
+
+app.post('/security', async(req, res) => {
+  const {email, secQuestion, secAnswer} = req.body
+  console.log('23', email, secQuestion, secAnswer)
+  const foundUser = await User.findOne({
+    where: {email:email}
+  })
+  if (foundUser) {
+  //  const addQuestion = 
+   await User.update({secquestion: secQuestion},
+     {where: {secquestion: null,}
+    });
+  //  const addAnswer = 
+   await User.update({secAnswer: secAnswer}, 
+    {where: {secanswer: secAnswer}
+  });
+
+  }
+  res.render('security');
+
+  
+});
+
+
+app.get('/forgotpassword', async(req, res) => {
+  res.render('forgotpassword');
+  
+});
+
+app.post('/forgotpassword', async(req, res) => {
+  const {email} = req.body
+  const foundUser = await User.findOne({where: {email:email}})
+  if (foundUser) {
+    res.send(secQuestion)
+  }
   res.render('forgotpassword');
  
 });
 
-app.post('/reset-password', (req, res) => {
-  const email = req.body.email;
-  const newPassword = req.body.newPassword;
+app.put('/forgotpassword', async (req, res) => {
+  const { email } = req.body;
+  const foundUser = await User.findOne({ where: { email: email } });
 
+  if (foundUser) {
+    if (foundUser.securityQuestion) {
+      // If user has a security question, render a page to ask the question
+      res.render('securityQuestionPage', { question: foundUser.securityQuestion });
+    } else {
+      // If user doesn't have a security question, proceed with password reset
+      res.render('forgotpassword');
+    }
+  } else {
+    // Handle case where user with the given email is not found
+    res.send('User not found');
+  }
 });
+
+
+// app.post('/reset-password', (req, res) => {
+//   const email = req.body.email;
+//   const newPassword = req.body.newPassword;
+
+// });
 
 app.put('/forgotpassword', (req, res) => {
   res.render('forgotpassword');

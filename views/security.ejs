@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="security.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="sec-body-div">
+        <div class="sec-fieldset">
+    <form action="/login" method="post">
+        <fieldset>
+        <h1>Security Question</h1>
+                <% { %>
+                    Email <br><input id="email" type="email" name="email" required /><br><br>
+                    Security Question <br><input id="question" type="question" name="secQuestion" required /><br><br>
+                    Security Answer <br><input id="answer" type="answer" name="secAnswer" required /><br><br>  
+                    <% } %>
+                        <input type="submit" class="createbtn" value="Add Security to Database" />      
+                        <div>
+                            <!-- <p> New to PeppaPlug?</p> -->
+                        </div>
+                        <div>
+                            <!-- <input type="button" class="createbtn" value="Create your PeppaPlug account" href="/register" /> -->
+                        </div>
+                        </fieldset>
+                </div>
+    </form>
+
+
+
+
+</body>
+
+</html>
