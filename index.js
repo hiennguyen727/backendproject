@@ -11,6 +11,8 @@ const winston = require('winston');
 const port = 3001
 app.set('views', path.join(__dirname, 'views'));
 //^ REMOVE THIS IF NO WORK
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.get('/', async(req, res) => {
     res.render('homepage')
 })
@@ -18,11 +20,25 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
-app.get('/gallery', async(req, res) => {
-  const newPep = await peppers.findAll()
+app.get('/gallery', async (req, res) => {
+    try {
+      const userId = req.cookies.userId; // Retrieve the user's ID from the session or cookie
   
-    res.render('gallery', {PeppaBoi: newPep})
-})
+      if (!userId) {
+        return res.redirect('/login'); // Redirect to the login page if the user is not authenticated
+      }
+  
+      // Fetch all available peppers
+      const allPeppers = await peppers.findAll();
+  
+      res.render('gallery', { PeppaBoi: allPeppers, userId: userId });
+    } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+    }
+  });
+  
+  
 
 app.post('/register', async (req, res) => {
     console.log('hi')
@@ -63,71 +79,63 @@ app.post('/register', async (req, res) => {
    
   });
   app.get('/dashboard', async (req, res) => {
-    const { email } = req.query; // Access the email parameter passed from the login route
+    const { email } = req.query;
   
     try {
       const user = await User.findOne({ where: { email: email } });
   
       if (!user) {
         console.log('User not found');
-        res.redirect('/failedlogin'); // Redirect to a failed login route
+        res.redirect('/failedlogin'); 
         return;
       }
-  
-      const userId = user.id; // Assuming your User model has an 'id' field
-  
-      // Assuming you have a model for the "Faves" table
-      const userFavorites = await Faves.findAll({ where: { userId: userId } });
 
-      console.log(userFavorites);
-
-    //   let pepper = {
-    //     name: pepper.name,
-    //     id: User.id
-    //   }
+      const userId = user.id;
   
-      res.render('dashboard', { email: email, userId: userId, favorites: userFavorites, pepper });
+      // Fetch the user's favorites and include the associated Pepper model
+      const userFavorites = await Faves.findAll({
+        where: { userId: userId },
+        include: [{ model: peppers, as: 'pepper' }], // Assuming 'pepper' is the name of the association
+      });
+  
+      res.render('dashboard', { email: email, userId: userId, favorites: userFavorites });
     } catch (error) {
       console.error(error);
       res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });
   
-  
+
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     try {
+      console.log('HELLO', email);
       const user = await User.findOne({ where: { email: email } });
   
       if (!user) {
         console.log('Wrong email');
-        res.redirect('/failedlogin'); // Redirect to a failed login route
-        return;
+        return res.redirect('/failedlogin'); 
       }
   
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.render('login', { errorMessage: 'Login failed' });
-        }
+      
+      const match = await bcrypt.compare(password, user.password);
   
-        if (result) {
-          // Store the user's ID in local storage
-          res.cookie('userId', user.id);
-          res.redirect(`/dashboard?email=${user.email}`);
-        } else {
-          res.redirect('/failedlogin'); // Redirect to a failed login route
-        }
-      });
+      if (match) {
+        
+        console.log('Login successful for email:', email);
+        res.cookie('userId', user.id);
+        return res.redirect(`/dashboard?email=${user.email}`);
+      } else {
+        console.log('Wrong password');
+        return res.redirect('/failedlogin'); // Redirect to a failed login route if the password is incorrect
+      }
     } catch (error) {
       console.error(error);
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+      return res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });
-  
-  
-  
+
   app.get('/failedlogin', (req, res) => {
     res.render('failedlogin');
   });
@@ -181,7 +189,29 @@ app.put('/forgotpassword', (req, res) => {
   res.render('forgotpassword');
  
 });
+app.post('/add-to-favorites', async (req, res) => {
+    const { userId, pepperId } = req.body;
+  
+    try {
+      // Perform the necessary database operation to add the favorite
+      await Faves.create({
+        userId: userId,
+        pepperId: pepperId,
+      });
+  
+      // Redirect the user back to the dashboard or another appropriate page
+      res.redirect('/gallery'); // You can change the redirect URL as needed
+    } catch (error) {
+      console.error(error);
+      // Handle errors, such as rendering an error page or sending an error response
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+    }
+  });
+  
 
+  
+  
+  
 
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`)
