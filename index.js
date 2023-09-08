@@ -8,11 +8,12 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
-const port = 3001
+const port = 3003
 app.set('views', path.join(__dirname, 'views'));
 //^ REMOVE THIS IF NO WORK
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
 app.get('/', async(req, res) => {
 
     res.render('homepage')
@@ -46,6 +47,7 @@ app.get('/aboutus', (req, res) => {
 
 app.get('/gallery', async(req, res) => {
   const newPep = await peppers.findAll()
+});
 
   
 
