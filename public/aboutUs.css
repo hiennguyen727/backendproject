@@ -65,8 +65,7 @@ html {
 @font-face {
     font-family: paragraph;
     src: url(Assets/animeace2_bld.otf);
-    
-  }
+}
 
   .footer{
     display: flex;
