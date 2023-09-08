@@ -8,13 +8,17 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
-const port = 3001
+const port = 3003
 
-app.get('/', async(req, res) => {
+app.get('/homepage', async(req, res) => {
     res.render('homepage')
 })
 app.get('/register', (req, res) => {
     res.render('register')
+})
+
+app.get('/aboutus', (req, res) => {
+  res.render('aboutus')
 })
 
 app.get('/gallery', async(req, res) => {
