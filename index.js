@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { User, peppers } = require('./models')
+const { User, peppers, Faves } = require('./models')
 var path = require('path')
 const bcrypt = require('bcrypt');
 app.set('view engine', 'ejs'); 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
-const port = 3003
+const port = 3001
+app.set('views', path.join(__dirname, 'views'));
+//^ REMOVE THIS IF NO WORK
+app.get('/', async(req, res) => {
 
-app.get('/homepage', async(req, res) => {
     res.render('homepage')
 })
 app.get('/register', (req, res) => {
@@ -65,35 +67,62 @@ app.post('/register', async (req, res) => {
     res.render('login');
    
   });
-  app.get('/dashboard', (req, res) => {
+  app.get('/dashboard', async (req, res) => {
     const { email } = req.query; // Access the email parameter passed from the login route
-  res.render('dashboard',{email:email})
-    
+  
+    try {
+      const user = await User.findOne({ where: { email: email } });
+  
+      if (!user) {
+        console.log('User not found');
+        res.redirect('/failedlogin'); // Redirect to a failed login route
+        return;
+      }
+  
+      const userId = user.id; // Assuming your User model has an 'id' field
+  
+      // Assuming you have a model for the "Faves" table
+      const userFavorites = await Faves.findAll({ where: { userId: userId } });
+
+      console.log(userFavorites);
+
+    //   let pepper = {
+    //     name: pepper.name,
+    //     id: User.id
+    //   }
+  
+      res.render('dashboard', { email: email, userId: userId, favorites: userFavorites, pepper });
+    } catch (error) {
+      console.error(error);
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+    }
   });
+  
+  
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
+  
     try {
-        const user = await User.findOne({ where: { email: email } });
-        
-        
-        if (!user) {
-            console.log('Wrong email');
-            res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
-            return;
+      const user = await User.findOne({ where: { email: email } });
+  
+      if (!user) {
+        console.log('Wrong email');
+        res.redirect('/failedlogin'); // Redirect to a failed login route
+        return;
+      }
+  
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          console.error(err);
+          return res.render('login', { errorMessage: 'Login failed' });
         }
-        
-        bcrypt.compare(password, user.password, async (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.render('login', { errorMessage: 'Login failed' });
-            }
-            
-            
+  
         if (result) {
-            
-            res.redirect(`/dashboard?email=${user.email}`);
+          // Store the user's ID in local storage
+          res.cookie('userId', user.id);
+          res.redirect(`/dashboard?email=${user.email}`);
         } else {
-          res.redirect('/failedlogin',"failedlogin"); // Redirect to /failedlogin route
+          res.redirect('/failedlogin'); // Redirect to a failed login route
         }
       });
     } catch (error) {
@@ -128,9 +157,10 @@ app.post('/register', async (req, res) => {
             }
             
             if (result) {
-                res.redirect('/','homepage', { successMessage: 'Login successful' });
+                res.redirect(`/dashboard?email=${user.email}`);
+            
             } else {
-                res.status(400).render('homepage', { errorMessage: 'Wrong email or password' });
+                res.status(400).render('/dashboard','dashboard', { errorMessage: 'Wrong email or password' });
             }
         });
 
@@ -141,8 +171,23 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get('/forgotpassword', (req, res) => {
+  res.render('forgotpassword');
+ 
+});
+
+app.post('/reset-password', (req, res) => {
+  const email = req.body.email;
+  const newPassword = req.body.newPassword;
+
+});
+
+app.put('/forgotpassword', (req, res) => {
+  res.render('forgotpassword');
+ 
+});
 
 
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`)
-})
+});
