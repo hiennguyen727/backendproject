@@ -14,6 +14,7 @@ app.set('views', path.join(__dirname, 'views'));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.get('/', async(req, res) => {
+
     res.render('homepage')
 })
 app.get('/register', (req, res) => {
@@ -38,6 +39,14 @@ app.get('/gallery', async (req, res) => {
     }
   });
   
+
+app.get('/aboutus', (req, res) => {
+  res.render('aboutus')
+})
+
+app.get('/gallery', async(req, res) => {
+  const newPep = await peppers.findAll()
+
   
 
 app.post('/register', async (req, res) => {
