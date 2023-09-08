@@ -12,10 +12,15 @@ const port = 3001
 app.set('views', path.join(__dirname, 'views'));
 //^ REMOVE THIS IF NO WORK
 app.get('/', async(req, res) => {
+
     res.render('homepage')
 })
 app.get('/register', (req, res) => {
     res.render('register')
+})
+
+app.get('/aboutus', (req, res) => {
+  res.render('aboutus')
 })
 
 app.get('/gallery', async(req, res) => {

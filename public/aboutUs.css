@@ -1,0 +1,102 @@
+html {
+    background-image: linear-gradient(to right, rgb(43, 15, 0), rgb(0, 0, 0));
+    overflow-x: hidden;
+    padding-bottom: 200px;
+}
+
+
+.body {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align elements to the left */
+    height: 2500px;
+}
+
+.Ethan {
+    align-self: flex-end; /* Position Ethan at the top right */
+    /* Adjust Ethan's styles as needed */
+}
+
+.Hien {
+    transform: translateX(-10%);
+}
+
+.Anthony {
+    align-self: flex-end;
+}
+
+
+.EthanText {
+    inline-size: 600px;
+    overflow-wrap: break-word;
+    position: absolute; /* Position relative to the nearest positioned ancestor */
+    top: 270px; /* Position 100px from the top of the viewport */
+    left: 220px; /* Position 200px from the left of the viewport */
+    font-size: 28px;
+    color: rgb(255, 255, 0);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.HienText {
+    inline-size: 500px;
+    overflow-wrap: break-word;
+    position: absolute; /* Position relative to the nearest positioned ancestor */
+    top: 1090px; /* Position 100px from the top of the viewport */
+    left: 875px; /* Position 200px from the left of the viewport */
+    font-size: 30px;
+    color: rgb(255, 255, 0);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.AnthonyText {
+    inline-size: 500px;
+    overflow-wrap: break-word;
+    position: absolute; /* Position relative to the nearest positioned ancestor */
+    top: 1790px; /* Position 100px from the top of the viewport */
+    left: 250px; /* Position 200px from the left of the viewport */
+    font-size: 28px;
+    color: rgb(255, 255, 0);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+@font-face {
+    font-family: paragraph;
+    src: url(Assets/animeace2_bld.otf);
+    
+  }
+
+  .footer{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footerText{
+    color: rgb(255, 255, 0);
+  }
+
+  .head{
+    width: 100vw;
+    height: 200px;
+        display: flex;
+        justify-content: flex-end; /* Align the content to the right */
+        align-items: center; /* Vertically center the content */
+  }
+
+.homeIcon {
+    width: 200px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.homeIcon:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0108.PNG); /* Change the image source on hover */
+}
+
+
+
