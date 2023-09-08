@@ -1,6 +1,29 @@
-<h1><% PeppaBoi.forEach(pepper=>{ %>
+
+<!-- gallery.ejs -->
+<h2>Pepper Gallery:</h2>
+<ul>
+  <% for (const pepper of PeppaBoi) { %>
+    <li>
+      <%= pepper.name %>
+      <form action="/add-to-favorites" method="POST">
+        <input type="hidden" name="userId" value="<%= userId %>">
+        <input type="hidden" name="pepperId" value="<%= pepper.id %>">
+        <button type="submit">Add to Favorites</button>
+      </form>
+    </li>
+  <% } %>
+</ul>
+
+
+
+
+<!-- <h1><% PeppaBoi.forEach(pepper=>{ %>
 <%= pepper.dataValues.name %>
+<br>
 <%= pepper.dataValues.heat %>
+<br>
 <%= pepper.dataValues.origin %>
+<br>
 <%= pepper.dataValues.colors %>
-<%}) %></h1> 
+<br>
+<%}) %></h1>  -->

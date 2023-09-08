@@ -15,7 +15,7 @@
 
         <div>
 
-            <fieldset>
+            <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 10px;">
             <h1>Create Account</h1>
             <% if (typeof successMessage !=='undefined' ) { %>
                 <p style="color: green;">
@@ -29,12 +29,17 @@
                     <% } %>
 
                     <!-- <% { %> -->
-                        
+
                         <label for="firstName">First Name</label><br>
+
+
+                        <label>First Name</label><br>
+
                         <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
                         <br>
                         <label for="lastName">Last Name</label><br>
                         <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
+
                         <br>
                         <label for="email">Email</label> <br>
                         <input required type="email" name="email" placeholder="Email" />
@@ -51,13 +56,20 @@
                         <label for="secanswer">Security Answer</label><br>
                         <input required type="text" class="blue" name="secanswer" minlength="2" maxlength="25" placeholder="Security Answer" />
                         <br>
-                        <!-- Add this to your register.ejs file -->
+
+
+                        <br><br>
+
+                      
 
                         <!-- <% } %> -->
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
+                            <br><br>
+
                             <div>
-                                Already have an account?<a href="/login">Sign In ▸</a>
+                                Already have an account? <a href="/login">Sign In ▸</a>
                             </div>
+                            <br><br>
         </div>
         </div>
         </fieldset>  

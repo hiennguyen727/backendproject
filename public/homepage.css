@@ -41,3 +41,66 @@ body{
     text-align: center;
 }
 
+
+
+
+.Img94 {
+    width: 250px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.Img94:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0109.PNG); /* Change the image source on hover */
+}
+
+.Img95 {
+    width: 250px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.Img95:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0108.PNG); /* Change the image source on hover */
+}
+
+.Img96 {
+    width: 250px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.Img96:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0107.PNG); /* Change the image source on hover */
+}
+
+.Img97 {
+    width: 250px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.Img97:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0106.PNG); /* Change the image source on hover */
+}
+
+.Img98 {
+    width: 250px; /* Set the initial width */
+    transition: transform 0.3s; /* Add a transition for smooth effect */
+}
+
+/* Define the hover state and change the image source */
+.Img98:hover {
+    transform: scale(1.1); /* Scale the image up by 10% on hover */
+    content: url(/Assets/IMG_0105.PNG); /* Change the image source on hover */
+}
+
+
+
+
+
+
