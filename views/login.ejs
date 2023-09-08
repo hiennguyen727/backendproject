@@ -9,30 +9,33 @@
 </head>
 
 <body>
-    <div class="login-body-div">
-        <div class="login-fieldset">
+    <div class="body-div">
+        <div class="fieldset">
     <form action="/login" method="post">
-        <fieldset>
+        <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 4px;">
 
 
-        <h1>SIGN IN</h1>
+        <h1 style="font-family: paragraph">SIGN IN</h1>
     
                 <% { %>
 
-                    Email <br><input id="email" type="email" name="email" required /><br><br>
+                    <p class="labelEmail">Email</p><input class="input" id="email" type="email" name="email" required /><br><br>
                    
-                    Password <br><input id="password" type="password" name="password" required /><br><br>
+                    <p class="labelPassword">Password</p> <br><input class="input"  id="password" type="password" name="password" required /><br>
                     <% } %>
                         
-                        <input type="submit" class="createbtn" value="Sign IN" />
+                        <input type="submit" id="createbtn" value="Sign In" style="margin-bottom: 30px;">
                        
                         <div>
-                            <p> New to PeppaPlug?</p>
+                            <p class="New"> New to PeppaPlug?</p>
                         </div>
-                        <button> <a type="button" href="/forgotpassword">Forgot Password</a></button>
+
                         <div>
-                            <input type="button" class="createbtn" value="Create your PeppaPlug account" href="/register" />
+                            <input type="button" id="createbtn" value="Create your PeppaPlug account" href="/register" style="margin-bottom: 30px;">
                         </div>
+
+                        <a href="/forgotpassword" style="margin-bottom: 30px;">Forgot Password</a>
+
                         </fieldset>
                     
                 </div>

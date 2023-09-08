@@ -8,14 +8,13 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }))
 const winston = require('winston');
-const port = 3003
+const port = 3001
 app.set('views', path.join(__dirname, 'views'));
 //^ REMOVE THIS IF NO WORK
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.get('/', async(req, res) => {
-
+app.get('/homepage', async(req, res) => {
     res.render('homepage')
 })
 app.get('/register', (req, res) => {

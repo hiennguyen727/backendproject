@@ -15,8 +15,8 @@
 
         <div>
 
-            <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 10px;">
-            <h1>Create Account</h1>
+            <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 4px;">
+            <h1 style="font-family: paragraph;">Create Account</h1>
             <% if (typeof successMessage !=='undefined' ) { %>
                 <p style="color: green;">
                     <%= successMessage %>
@@ -31,25 +31,26 @@
                     <% { %>
                         
 
-                        <label>First Name</label><br>
-                        <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
+                        <label class="labelFName">First Name</label><br>
+                        <input required type="text" class="input" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
                         <br><br>
-                        <label>Last Name</label><br>
-                        <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
+                        <label class="labelLName">Last Name</label><br>
+                        <input required type="text" class="input" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
+                        <!-- I changed the class from "blue" to "input" to apply the input styling to the first name and last name fields. -->
 
                         <br><br>
 
-                        <label>Email</label> <br>
+                        <label class="labelEmail">Email</label> <br>
 
                         <input required type="email" class="input" name="email" />
                         <br><br>
 
-                        <label>Password</label> <br>
+                        <label class="labelPassword">Password</label> <br>
                         <input required type="password" class="input" name="password" minlength="8" placeholder="at least 8 characters" />
                         <br><br>
 
 
-                        <label>Re Enter Password</label> <br>
+                        <label class="labelRePassword">Re Enter Password</label> <br>
                         <input required type="password" class="input" name="repassword" />
                         <br><br>
                         <!-- Add this to your register.ejs file -->
@@ -59,7 +60,7 @@
                             <br><br>
 
                             <div>
-                                Already have an account? <a href="/login">Sign In ▸</a>
+                                Already have an account? <a href="/login">Sign In</a>
                             </div>
                             <br><br>
         </div>
