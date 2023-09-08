@@ -28,33 +28,41 @@
                     </p>
                     <% } %>
 
-                    <% { %>
-                        
+                    <!-- <% { %> -->
+
+                        <label for="firstName">First Name</label><br>
+
 
                         <label>First Name</label><br>
+
                         <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
-                        <br><br>
-                        <label>Last Name</label><br>
+                        <br>
+                        <label for="lastName">Last Name</label><br>
                         <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
 
+                        <br>
+                        <label for="email">Email</label> <br>
+                        <input required type="email" name="email" placeholder="Email" />
+                        <br>
+                        <label for="password">Password</label><br>
+                         <input required type="password" name="password" minlength="8" placeholder="at least 8 characters" />
+                         <br>
+                         <label>Re Enter Password</label> <br>
+                         <input required type="password" name="repassword" />
+                        <br>
+                         <label for="secquestion">Security Question</label><br>
+                        <input required type="text" class="blue" name="secquestion" minlength="2" maxlength="25" placeholder="Security Question" />
+                        <br>
+                        <label for="secanswer">Security Answer</label><br>
+                        <input required type="text" class="blue" name="secanswer" minlength="2" maxlength="25" placeholder="Security Answer" />
+                        <br>
+
+
                         <br><br>
 
-                        <label>Email</label> <br>
+                      
 
-                        <input required type="email" class="input" name="email" />
-                        <br><br>
-
-                        <label>Password</label> <br>
-                        <input required type="password" class="input" name="password" minlength="8" placeholder="at least 8 characters" />
-                        <br><br>
-
-
-                        <label>Re Enter Password</label> <br>
-                        <input required type="password" class="input" name="repassword" />
-                        <br><br>
-                        <!-- Add this to your register.ejs file -->
-
-                        <% } %>
+                        <!-- <% } %> -->
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
                             <br><br>
 
