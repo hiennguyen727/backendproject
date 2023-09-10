@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="login-body-div">
+        <div class="login-fieldset">
+    <form action="/resetpassword" method="put">
+        <fieldset>
+
+   
+    
+        
+
+
+
+        <h1>Authorization</h1>
+    
+
+                <% { %>
+
+                    Security Question <br><input id="secQuestion" type="text" name="secQuestion" required /><br><br>
+                    
+                    
+                    <!-- <button type="submit">Send Email</button><br><br> -->
+                    Security Answer <br><input id="secAnswer" type="text" name="secAnswer" required /><br><br>
+                   
+                    <% } %>
+
+                    
+                        
+                        <input type="submit" class="createbtn" value="Set securities" />
+                       
+                        <div>
+                            <!-- <p> New to PeppaPlug?</p> -->
+                        </div>
+                        <div>
+                            <!-- <input type="button" class="createbtn" value="Create your PeppaPlug account" href="/register" /> -->
+                        </div>
+                        </fieldset>
+                    
+                </div>
+                    
+                </form>
+
+
+
+
+</body>
+
+</html>

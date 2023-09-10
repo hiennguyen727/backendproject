@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="register.css">
     <title>Document</title>
+    <link rel="stylesheet" href="homepage.css">
 </head>
+<body>
 
 <body>
-    <div class="body-div">
-    <div class="fieldset">
+    <div class="navBar">
+        <a href="/gallery"> <img alt="hi" src="/Assets/IMG_0094.PNG" class="Img94"></a>
+        <a href="/"><img alt="hi" src="/Assets/IMG_0095.PNG" class="Img95"></a>
+        <a href="/dashboard?email=${user.email}"><img alt="hi" src="/Assets/IMG_0096.PNG" class="Img96"></a>
+        <a href="/aboutus"><img alt="hi" src="/Assets/IMG_0098.PNG" class="Img98"></a>
+        <a href="/login"><img alt="hi" src="/Assets/IMG_0097.PNG" class="Img97"></a>
+        </div>
+    <!-- <div class="body-div"> -->
+    <!-- <div class="fieldset"> -->
     <form action="/register" method="post">
 
-        <div>
+        <!-- <div> -->
 
             <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 10px;">
             <h1>Create Account</h1>
@@ -28,33 +35,41 @@
                     </p>
                     <% } %>
 
-                    <% { %>
-                        
+                    <!-- <% { %> -->
+
+                        <label for="firstName">First Name</label><br>
+
 
                         <label>First Name</label><br>
+
                         <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
-                        <br><br>
-                        <label>Last Name</label><br>
+                        <br>
+                        <label for="lastName">Last Name</label><br>
                         <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
 
+                        <br>
+                        <label for="email">Email</label> <br>
+                        <input required type="email" name="email" placeholder="Email" />
+                        <br>
+                        <label for="password">Password</label><br>
+                         <input required type="password" name="password" minlength="8" placeholder="at least 8 characters" />
+                         <br>
+                         <label>Re Enter Password</label> <br>
+                         <input required type="password" name="repassword" />
+                        <br>
+                         <label for="secquestion">Security Question</label><br>
+                        <input required type="text" class="blue" name="secquestion" minlength="2" maxlength="25" placeholder="Security Question" />
+                        <br>
+                        <label for="secanswer">Security Answer</label><br>
+                        <input required type="text" class="blue" name="secanswer" minlength="2" maxlength="25" placeholder="Security Answer" />
+                        <br>
+
+
                         <br><br>
 
-                        <label>Email</label> <br>
+                      
 
-                        <input required type="email" class="input" name="email" />
-                        <br><br>
-
-                        <label>Password</label> <br>
-                        <input required type="password" class="input" name="password" minlength="8" placeholder="at least 8 characters" />
-                        <br><br>
-
-
-                        <label>Re Enter Password</label> <br>
-                        <input required type="password" class="input" name="repassword" />
-                        <br><br>
-                        <!-- Add this to your register.ejs file -->
-
-                        <% } %>
+                        <!-- <% } %> -->
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
                             <br><br>
 
@@ -75,5 +90,4 @@
 
 
 </body>
-
 </html>

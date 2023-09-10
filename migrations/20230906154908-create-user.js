@@ -21,7 +21,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      
+      secQuestion: {
+        type: Sequelize.STRING
+      },
+      secAnswer: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE
