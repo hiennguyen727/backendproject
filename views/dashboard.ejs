@@ -6,10 +6,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="/dashboard.css"> <!-- Include your CSS file -->
+  <link rel="stylesheet" href="/homepage.css"> <!-- Include your CSS file -->
 </head>
 <body>
-  <h1>Welcome, <%= email %>!</h1>
+  <h1><%= welcomeMessage %></h1>
+  <div class="navBar">
+    <a href="/gallery"> <img alt="hi" src="/Assets/IMG_0094.PNG" class="Img94"></a>
+    <a href="/"><img alt="hi" src="/Assets/IMG_0095.PNG" class="Img95"></a>
+    <a href="/dashboard?email=${user.email}"><img alt="hi" src="/Assets/IMG_0096.PNG" class="Img96"></a>
+    <a href="/aboutus"><img alt="hi" src="/Assets/IMG_0098.PNG" class="Img98"></a>
+    <a href="/login"><img alt="hi" src="/Assets/IMG_0097.PNG" class="Img97"></a>
+    </div>
+
   <h2>Your Favorites:</h2>
   <div class="pepper-grid">
     <% for (const favorite of favorites) { %>
@@ -18,5 +26,8 @@
       </div>
     <% } %>
   </div>
+  <form action="/logout" method="post">
+    <button type="submit">Logout</button>
+  </form>
 </body>
 </html>

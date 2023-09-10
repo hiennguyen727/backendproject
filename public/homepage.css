@@ -1,6 +1,7 @@
 body{
     background-image: linear-gradient(to right, rgb(43, 15, 0), rgb(0, 0, 0));
     /* background-color: black; */
+    color: yellow;
 }
 
 /* .rotatingPepper{

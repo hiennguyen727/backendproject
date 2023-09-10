@@ -1,247 +1,232 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const app = express();
-const { User, peppers, Faves } = require('./models')
-var path = require('path')
+const { User, peppers, Faves } = require('./models');
+var path = require('path');
 const bcrypt = require('bcrypt');
-app.set('view engine', 'ejs'); 
+app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 const winston = require('winston');
-const port = 3003
+const port = 3003;
 app.set('views', path.join(__dirname, 'views'));
-//^ REMOVE THIS IF NO WORK
+
+// Configure express-session middleware
+app.use(
+  session({
+    secret: 'your-secret-key', // Replace with a secure secret
+    resave: false,
+    saveUninitialized: true,
+    // Other session configuration options...
+  })
+);
+
+// Helper function to check if the user is authenticated
+function isAuthenticated(req) {
+  return !!req.session.userId; // Check if the user's ID is stored in the session
+}
+
+// Middleware to check authentication
+function requireAuth(req, res, next) {
+  if (!isAuthenticated(req)) {
+    return res.redirect('/login');
+  }
+  next();
+}
+
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-app.get('/', async(req, res) => {
+app.get('/', async (req, res) => {
+  res.render('homepage');
+});
 
-    res.render('homepage')
-})
 app.get('/register', (req, res) => {
-    res.render('register')
-})
+  res.render('register');
+});
 
 app.get('/gallery', async (req, res) => {
-    try {
-      const userId = req.cookies.userId; // Retrieve the user's ID from the session or cookie
-  
-      if (!userId) {
-        return res.redirect('/login'); // Redirect to the login page if the user is not authenticated
-      }
-  
-      // Fetch all available peppers
-      const allPeppers = await peppers.findAll();
-  
-      res.render('gallery', { PeppaBoi: allPeppers, userId: userId });
-    } catch (error) {
-      console.error(error);
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  try {
+    const userId = req.cookies.userId;
+
+    if (!isAuthenticated(req)) {
+      return res.redirect('/login');
     }
-  });
-  
+
+    const allPeppers = await peppers.findAll();
+
+    res.render('gallery', { PeppaBoi: allPeppers, userId: userId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
 
 app.get('/aboutus', (req, res) => {
-  res.render('aboutus')
-})
-
-app.get('/gallery', async(req, res) => {
-  const newPep = await peppers.findAll()
+  res.render('aboutus');
 });
-
-  
 
 app.post('/register', async (req, res) => {
-    console.log('hi')
-    const nameRegex = /^[A-Za-z]+$/; // Only letters
-    const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
-    const minLength = 8;
-    const { firstName,lastName, email, password, repassword, secquestion, secanswer} = req.body;
-    const saltrounds = 10;
-  
-    bcrypt.hash(password, saltrounds, async (err, hash) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).render('register', { errorMessage: 'Hashing password failed' });
-      }
-      if (password !== repassword){
-        return res.render('register',{failedMessage:'PASSWORD NO MATCH'})
-      }
-      // console.log('hashpassword:', hash);
-      try {
-        await User.create({
-          firstName,
-          lastName,
-          email,
-          password: hash,
-          secQuestion:secquestion,
-          secAnswer:secanswer
-         
-        });
-  
-        res.render('register', { successMessage: 'Registration successful' });
-      } catch (err) {
-        console.error(err);
-        res.status(500).render('register', { errorMessage: 'Registration failed' });
-      }
-    });
-  });
+  const nameRegex = /^[A-Za-z]+$/;
+  const usernameRegex = /^[A-Za-z0-9]+$/;
+  const minLength = 8;
+  const { firstName, lastName, email, password, repassword, secquestion, secanswer } = req.body;
+  const saltrounds = 10;
 
-  app.get('/login', (req, res) => {
-    res.render('login');
-   
-  });
-  app.get('/dashboard', async (req, res) => {
-    const { email } = req.query;
-  
+  bcrypt.hash(password, saltrounds, async (err, hash) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).render('register', { errorMessage: 'Hashing password failed' });
+    }
+    if (password !== repassword) {
+      return res.render('register', { failedMessage: 'PASSWORD NO MATCH' });
+    }
+
     try {
-
-        const user = await User.findOne({ where: { email: email } });
-        
-        
-        if (!user) {
-            console.log('Wrong email');
-            res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
-            return;
-        }
-        
-        bcrypt.compare(password, user.password, async (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.render('login', { errorMessage: 'Login failed' });
-            }
-            
-            
-        if (result) {
-            res.redirect(`/dashboard?email=${user.email}`);
-        } else {
-          res.redirect('/failedlogin',"failedlogin"); // Redirect to /failedlogin route
-        }
-
-      const user = await User.findOne({ where: { email: email } });
-  
-      if (!user) {
-        console.log('User not found');
-        res.redirect('/failedlogin'); 
-        return;
-      }
-
-      const userId = user.id;
-  
-      // Fetch the user's favorites and include the associated Pepper model
-      const userFavorites = await Faves.findAll({
-        where: { userId: userId },
-        include: [{ model: peppers, as: 'pepper' }], // Assuming 'pepper' is the name of the association
-
+      await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hash,
+        secQuestion: secquestion,
+        secAnswer: secanswer,
       });
-  
-      res.render('dashboard', { email: email, userId: userId, favorites: userFavorites });
-    } catch (error) {
-      console.error(error);
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-    }
-  });
-  
 
-  app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      console.log('HELLO', email);
-      const user = await User.findOne({ where: { email: email } });
-  
-      if (!user) {
-        console.log('Wrong email');
-        return res.redirect('/failedlogin'); 
-      }
-  
-      
-      const match = await bcrypt.compare(password, user.password);
-  
-      if (match) {
-        
-        console.log('Login successful for email:', email);
-        res.cookie('userId', user.id);
-        return res.redirect(`/dashboard?email=${user.email}`);
-      } else {
-        console.log('Wrong password');
-        return res.redirect('/failedlogin'); // Redirect to a failed login route if the password is incorrect
-      }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-    }
-  });
-
-  app.get('/failedlogin', (req, res) => {
-    res.render('failedlogin');
- 
-  });
-  
-  
-  app.post('/failedlogin', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const user = await User.findOne({ where:{ email:email }});
-      if (!user) {
-        console.log('Wrong email')
-        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' })
-        return ;
-      }
-        
-      
-      bcrypt.compare(password, user.password, async (err, result) => {
-          if (err) {
-              console.error(err);
-              return res.render('failedlogin', { errorMessage: 'Login failed' });
-            }
-            
-            if (result) {
-                res.redirect(`/dashboard?email=${user.email}`);
-            
-            } else {
-                res.status(400).render('/dashboard','dashboard', { errorMessage: 'Wrong email or password' });
-            }
-        });
-
-
+      res.render('register', { successMessage: 'Registration successful' });
     } catch (err) {
-        console.error(err);
-        res.status(500).render('login', { errorMessage: 'Login failed' });
+      console.error(err);
+      res.status(500).render('register', { errorMessage: 'Registration failed' });
     }
+  });
 });
 
-app.get('/security', async(req, res) => {
-  res.render('security');
-})
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
-app.post('/security', async(req, res) => {
-  const {email, secQuestion, secAnswer} = req.body
-  console.log('23', email, secQuestion, secAnswer)
-  const foundUser = await User.findOne({
-    where: {email:email}
-  })
-  if (foundUser) {
-  //  const addQuestion = 
-   await User.update({secquestion: secQuestion},
-     {where: {secquestion: null,}
+app.get('/dashboard', requireAuth, async (req, res) => {
+  try {
+    const userId = req.cookies.userId;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      console.log('User not found');
+      res.redirect('/failedlogin');
+      return;
+    }
+
+    const userFavorites = await Faves.findAll({
+      where: { userId: userId },
+      include: [{ model: peppers, as: 'pepper' }],
     });
-  //  const addAnswer = 
-   await User.update({secAnswer: secAnswer}, 
-    {where: {secanswer: secAnswer}
-  });
 
+    // Pass the 'email' variable to the template
+    res.render('dashboard', { welcomeMessage: `Welcome, ${user.email}!`, userId: userId, favorites: userFavorites });
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
+
+
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user) {
+      console.log('Wrong email');
+      return res.redirect('/failedlogin');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      req.session.userId = user.id; // Store user's ID in the session
+      res.cookie('userId', user.id);
+      return res.redirect(`/dashboard?email=${user.email}`);
+    } else {
+      console.log('Wrong password');
+      return res.redirect('/failedlogin');
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
+
+app.get('/failedlogin', (req, res) => {
+  res.render('failedlogin');
+});
+
+app.post('/failedlogin', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email: email } });
+
+    if (!user) {
+      console.log('Wrong email');
+      res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
+      return;
+    }
+
+    bcrypt.compare(password, user.password, async (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.render('failedlogin', { errorMessage: 'Login failed' });
+      }
+
+      if (result) {
+        req.session.userId = user.id; // Store user's ID in the session
+        res.redirect(`/dashboard?email=${user.email}`);
+      } else {
+        res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).render('login', { errorMessage: 'Login failed' });
+  }
+});
+
+app.get('/security', async (req, res) => {
+  res.render('security');
+});
+
+app.post('/security', async (req, res) => {
+  const { email, secQuestion, secAnswer } = req.body;
+  console.log('23', email, secQuestion, secAnswer);
+  const foundUser = await User.findOne({
+    where: { email: email },
+  });
+  if (foundUser) {
+    await User.update(
+      { secquestion: secQuestion },
+      {
+        where: {
+          secquestion: null,
+        },
+      }
+    );
+    await User.update(
+      { secAnswer: secAnswer },
+      {
+        where: {
+          secanswer: secAnswer,
+        },
+      }
+    );
   }
   res.render('security');
-
-  
 });
 
-
-app.get('/resetpassword', async(req, res) => {
+app.get('/resetpassword', async (req, res) => {
   res.render('resetpassword');
-  
 });
 
 app.put('/resetpassword', async (req, res) => {
@@ -250,56 +235,60 @@ app.put('/resetpassword', async (req, res) => {
 
   if (foundUser) {
     if (foundUser.securityQuestion) {
-      // If user has a security question, render a page to ask the question
       res.render('securityQuestionPage', { question: foundUser.securityQuestion });
     } else {
-      // If user doesn't have a security question, proceed with password reset
       res.render('resetpassword');
     }
   } else {
-    // Handle case where user with the given email is not found
     res.send('User not found');
   }
 });
 
-
-// app.post('/reset-password', (req, res) => {
-//   const email = req.body.email;
-//   const newPassword = req.body.newPassword;
-
-// });
-
 app.put('/resetpassword', (req, res) => {
   res.render('resetpassword');
- 
 });
-app.post('/add-to-favorites', async (req, res) => {
-    const { userId, pepperId } = req.body;
-  
-    try {
-      // Perform the necessary database operation to add the favorite
-      await Faves.create({
-        userId: userId,
-        pepperId: pepperId,
-      });
-  
-      // Redirect the user back to the dashboard or another appropriate page
-      res.redirect('/gallery'); // You can change the redirect URL as needed
-    } catch (error) {
-      console.error(error);
-      // Handle errors, such as rendering an error page or sending an error response
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-    }
-  });
-  
 
+app.post('/add-to-favorites', async (req, res) => {
+  const { userId, pepperId } = req.body;
+
+  try {
+    await Faves.create({
+      userId: userId,
+      pepperId: pepperId,
+    });
+
+    res.redirect('/gallery');
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
 
 app.get('/auth', (req, res) => {
   res.render('auth');
- 
+});
+app.get('/logout', (req, res) => {
+  // Clear the session and redirect to the login page
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+    }
+    res.redirect('/login');
+  });
+});
+app.post('/logout', (req, res) => {
+  // Clear the session and redirect to the login page
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+    }
+    res.redirect('/login');
+  });
 });
 
 
-app.listen(port,()=>{
-    console.log(`Server is running on ${port}`)
+
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
 });
+
