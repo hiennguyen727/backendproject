@@ -4,13 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="homepage.css">
     <title>Document</title>
 </head>
 
 <body>
-    <div class="body-div">
-        <div class="fieldset">
+    <div class="navBar">
+        <a href="/gallery"> <img alt="hi" src="/Assets/IMG_0094.PNG" class="Img94"></a>
+        <a href="/"><img alt="hi" src="/Assets/IMG_0095.PNG" class="Img95"></a>
+        <a href="/dashboard?email=${user.email}"><img alt="hi" src="/Assets/IMG_0096.PNG" class="Img96"></a>
+        <a href="/aboutus"><img alt="hi" src="/Assets/IMG_0098.PNG" class="Img98"></a>
+        <a href="/login"><img alt="hi" src="/Assets/IMG_0097.PNG" class="Img97"></a>
+        </div>
+    <div class="login-body-div">
+        <div class="login-fieldset">
     <form action="/login" method="post">
         <fieldset style="border-style: solid; border-color: rgb(255, 85, 0); border-radius: 25px; border-width: 4px;">
 
@@ -35,7 +42,9 @@
                         <button> <a type="button" href="/security">Forgot Password</a></button>
 >>>>>>> main
                         <div>
-                            <input type="button" id="createbtn" value="Create your PeppaPlug account" href="/register" style="margin-bottom: 30px;">
+                            <button>
+                                <a href="/register">Create your PeppaPlug account</a>
+                              </button>
                         </div>
 
                         <a href="/forgotpassword" style="margin-bottom: 30px;">Forgot Password</a>
