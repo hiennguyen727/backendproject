@@ -249,46 +249,29 @@ app.put('/resetpassword', (req, res) => {
 });
 
 app.post('/add-to-favorites', async (req, res) => {
-  const { userId, pepperId } = req.body;
-
-  try {
-    await Faves.create({
-      userId: userId,
-      pepperId: pepperId,
-    });
-
-    res.redirect('/gallery');
-  } catch (error) {
-    console.error(error);
-    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-  }
-});
-
-app.get('/auth', (req, res) => {
-  res.render('auth');
-});
-app.get('/logout', (req, res) => {
-  // Clear the session and redirect to the login page
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
+    const { userId, pepperId } = req.body;
+  
+    try {
+      // Perform the necessary database operation to add the favorite
+      await Faves.create({
+        userId: userId,
+        pepperId: pepperId,
+      });
+  
+      // Redirect the user back to the dashboard or another appropriate page
+      res.redirect('/gallery'); // You can change the redirect URL as needed
+    } catch (error) {
+      console.error(error);
+      // Handle errors, such as rendering an error page or sending an error response
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
-    res.redirect('/login');
   });
-});
-app.post('/logout', (req, res) => {
-  // Clear the session and redirect to the login page
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
-    }
-    res.redirect('/login');
-  });
-});
+  
 
+  
+  
+  
 
-
-app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
-});
-
+app.listen(port,()=>{
+    console.log(`Server is running on ${port}`)
+})
