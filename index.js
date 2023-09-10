@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 const winston = require('winston');
-const port = 3003;
+const port = 3000;
 app.set('views', path.join(__dirname, 'views'));
 
 // Configure express-session middleware
