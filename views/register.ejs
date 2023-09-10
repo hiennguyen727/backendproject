@@ -28,18 +28,48 @@
                     </p>
                     <% } %>
 
-                    <% { %>
-                        
+                    <!-- <% { %> -->
 
+                        <label for="firstName">First Name</label><br>
+
+
+<<<<<<< HEAD
                         <label class="labelFName">First Name</label><br>
                         <input required type="text" class="input" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
                         <br><br>
                         <label class="labelLName">Last Name</label><br>
                         <input required type="text" class="input" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
                         <!-- I changed the class from "blue" to "input" to apply the input styling to the first name and last name fields. -->
+=======
+                        <label>First Name</label><br>
+
+                        <input required type="text" class="blue" name="firstName" minlength="2" maxlength="25" placeholder="First name" />
+                        <br>
+                        <label for="lastName">Last Name</label><br>
+                        <input required type="text" class="blue" name="lastName" minlength="2" maxlength="25" placeholder="Last name" />
+>>>>>>> main
+
+                        <br>
+                        <label for="email">Email</label> <br>
+                        <input required type="email" name="email" placeholder="Email" />
+                        <br>
+                        <label for="password">Password</label><br>
+                         <input required type="password" name="password" minlength="8" placeholder="at least 8 characters" />
+                         <br>
+                         <label>Re Enter Password</label> <br>
+                         <input required type="password" name="repassword" />
+                        <br>
+                         <label for="secquestion">Security Question</label><br>
+                        <input required type="text" class="blue" name="secquestion" minlength="2" maxlength="25" placeholder="Security Question" />
+                        <br>
+                        <label for="secanswer">Security Answer</label><br>
+                        <input required type="text" class="blue" name="secanswer" minlength="2" maxlength="25" placeholder="Security Answer" />
+                        <br>
+
 
                         <br><br>
 
+<<<<<<< HEAD
                         <label class="labelEmail">Email</label> <br>
 
                         <input required type="email" class="input" name="email" />
@@ -56,6 +86,11 @@
                         <!-- Add this to your register.ejs file -->
 
                         <% } %>
+=======
+                      
+
+                        <!-- <% } %> -->
+>>>>>>> main
                             <input id="createbtn" type="submit" value="Create your Peppa Plug account" />
                             <br><br>
 
