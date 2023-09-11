@@ -26,6 +26,18 @@ app.use(
 function isAuthenticated(req) {
   return !!req.session.userId; // Check if the user's ID is stored in the session
 }
+app.get('/logout', (req, res) => {
+  // Clear the user session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+    } else {
+      // Redirect the user to the homepage or another appropriate page
+      res.redirect('/');
+    }
+  });
+});
 
 // Middleware to check authentication
 function requireAuth(req, res, next) {
@@ -252,17 +264,38 @@ app.post('/add-to-favorites', async (req, res) => {
     const { userId, pepperId } = req.body;
   
     try {
-      // Perform the necessary database operation to add the favorite
+     
       await Faves.create({
         userId: userId,
         pepperId: pepperId,
       });
   //HELLO RESET POINT
-      // Redirect the user back to the dashboard or another appropriate page
-      res.redirect('/gallery'); // You can change the redirect URL as needed
+      
+      res.redirect('/gallery'); 
     } catch (error) {
       console.error(error);
-      // Handle errors, such as rendering an error page or sending an error response
+     
+      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+    }
+  });
+  
+  app.post('/remove-from-favorites', async (req, res) => {
+    const { userId, pepperId } = req.body;
+  
+    try {
+      
+      await Faves.destroy({
+        where: {
+          userId: userId,
+          pepperId: pepperId,
+        },
+      });
+  
+      
+      res.redirect('/dashboard'); 
+    } catch (error) {
+      console.error(error);
+      
       res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });

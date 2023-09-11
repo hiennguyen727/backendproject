@@ -16,18 +16,25 @@
     <a href="/dashboard?email=${user.email}"><img alt="hi" src="/Assets/IMG_0096.PNG" class="Img96"></a>
     <a href="/aboutus"><img alt="hi" src="/Assets/IMG_0098.PNG" class="Img98"></a>
     <a href="/login"><img alt="hi" src="/Assets/IMG_0097.PNG" class="Img97"></a>
-    </div>
+  </div>
 
   <h2>Your Favorites:</h2>
   <div class="pepper-grid">
     <% for (const favorite of favorites) { %>
       <div class="pepper-card">
         <p><%= favorite.pepper.name %></p>
+        <form action="/remove-from-favorites" method="post">
+          <input type="hidden" name="userId" value="<%= userId %>" />
+          <input type="hidden" name="pepperId" value="<%= favorite.pepper.id %>" />
+          <button type="submit">Remove from Favorites</button>
+        </form>
       </div>
     <% } %>
   </div>
-  <form action="/logout" method="post">
+  
+  <form action="/logout" method="get">
     <button type="submit">Logout</button>
   </form>
 </body>
 </html>
+
