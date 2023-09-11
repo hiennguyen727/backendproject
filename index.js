@@ -70,7 +70,7 @@ app.get('/gallery', async (req, res) => {
     res.status(500).render('error', { errorMessage: 'Internal Server Error' });
   }
 });
-
+//okokokokokokok
 app.get('/aboutus', (req, res) => {
   res.render('aboutus');
 });
