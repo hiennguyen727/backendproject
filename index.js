@@ -6,7 +6,8 @@ var path = require('path')
 const bcrypt = require('bcrypt');
 app.set('view engine', 'ejs'); 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
 const winston = require('winston');
 const port = 3001
 app.set('views', path.join(__dirname, 'views'));
@@ -44,9 +45,9 @@ app.get('/aboutus', (req, res) => {
   res.render('aboutus')
 })
 
-app.get('/gallery', async(req, res) => {
-  const newPep = await peppers.findAll()
-
+// app.get('/gallery', async(req, res) => {
+//   const newPep = await peppers.findAll()
+// });
   
 
 app.post('/register', async (req, res) => {
@@ -89,48 +90,25 @@ app.post('/register', async (req, res) => {
     res.render('login');
    
   });
+
   app.get('/dashboard', async (req, res) => {
     const { email } = req.query;
   
     try {
-
-        const user = await User.findOne({ where: { email: email } });
-        
-        
-        if (!user) {
-            console.log('Wrong email');
-            res.status(400).render('failedlogin', { errorMessage: 'Wrong email or password' });
-            return;
-        }
-        
-        bcrypt.compare(password, user.password, async (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.render('login', { errorMessage: 'Login failed' });
-            }
-            
-            
-        if (result) {
-            res.redirect(`/dashboard?email=${user.email}`);
-        } else {
-          res.redirect('/failedlogin',"failedlogin"); // Redirect to /failedlogin route
-        }
-
       const user = await User.findOne({ where: { email: email } });
   
       if (!user) {
         console.log('User not found');
-        res.redirect('/failedlogin'); 
+        res.redirect('/failedlogin');
         return;
       }
-
+  
       const userId = user.id;
   
       // Fetch the user's favorites and include the associated Pepper model
       const userFavorites = await Faves.findAll({
         where: { userId: userId },
         include: [{ model: peppers, as: 'pepper' }], // Assuming 'pepper' is the name of the association
-
       });
   
       res.render('dashboard', { email: email, userId: userId, favorites: userFavorites });
@@ -139,7 +117,6 @@ app.post('/register', async (req, res) => {
       res.status(500).render('error', { errorMessage: 'Internal Server Error' });
     }
   });
-  
 
   app.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -237,28 +214,68 @@ app.post('/security', async(req, res) => {
 });
 
 
-app.get('/resetpassword', async(req, res) => {
-  res.render('resetpassword');
+// app.get('/resetpassword', async(req, res) => {
+//   res.render('resetpassword');
   
-});
+// });
+app.get('/resetpassword', (req, res) => {
+  res.render('resetpassword')
+})
 
 app.put('/resetpassword', async (req, res) => {
-  const { email } = req.body;
-  const foundUser = await User.findOne({ where: { email: email } });
+  const { email, password, newPassword, secAnswer } = req.body;
+  console.log('226',req.body)
+  const nameRegex = /^[A-Za-z]+$/; // Only letters
+  const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
+  const saltrounds = 10;
+  const foundUser = await User.findOne({ where: { email: email, secAnswer: secAnswer } });
 
-  if (foundUser) {
-    if (foundUser.securityQuestion) {
-      // If user has a security question, render a page to ask the question
-      res.render('securityQuestionPage', { question: foundUser.securityQuestion });
-    } else {
-      // If user doesn't have a security question, proceed with password reset
-      res.render('resetpassword');
-    }
-  } else {
-    // Handle case where user with the given email is not found
-    res.send('User not found');
-  }
+  User.update({
+    password: newPassword
+  }, {where: {secAnswer: secAnswer, email: email}})
+  res.send('Password reset successful')
 });
+  
+  // bcrypt.hash(password, newPassword, saltrounds, async (err, hash) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(500).render('resetpassword', { errorMessage: 'Hashing password failed' });
+  //   }
+  //   if (secanswer !== secAnswer){
+  //     return res.render('resetpassword',{failedMessage:'CANNOT RESET PASSWORD'})
+  //   }
+  //   try {
+
+
+  //     if (foundUser) {
+  //       // Check if the security answer matches
+  //       if (foundUser.secAnswer !== secAnswer) {
+  //         return res.render('resetpassword', { errorMessage: 'Security answer is incorrect' });
+  //       }
+  //       await User.update({
+  //         // email,
+  //         password: hash,
+  //         // newPassword: hash,
+  //         // secAnswer:secanswer
+  //       });
+
+  //       // Update the user's password in the database
+  //       // await User.update({ password: newPassword }, { where: { email: email } && { where: {secAnswer: secanswer}}});
+  //       console.log('password updated');
+  //       // Render a page that indicates the password has been reset
+  //       res.render('passwordResetSuccess');
+  //     } else {
+  //       // Email not found
+  //       res.send('User not found');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  //   }
+  // });
+
+
+
 
 
 // app.post('/reset-password', (req, res) => {
@@ -267,10 +284,7 @@ app.put('/resetpassword', async (req, res) => {
 
 // });
 
-app.put('/resetpassword', (req, res) => {
-  res.render('resetpassword');
- 
-});
+
 app.post('/add-to-favorites', async (req, res) => {
     const { userId, pepperId } = req.body;
   
