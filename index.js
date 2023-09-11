@@ -12,16 +12,6 @@ const winston = require('winston');
 const port = 3003;
 app.set('views', path.join(__dirname, 'views'));
 
-// Configure express-session middleware
-app.use(
-  session({
-    secret: 'your-secret-key', // Replace with a secure secret
-    resave: false,
-    saveUninitialized: true,
-    // Other session configuration options...
-  })
-);
-
 // Helper function to check if the user is authenticated
 function isAuthenticated(req) {
   return !!req.session.userId; // Check if the user's ID is stored in the session

@@ -1,1 +1,2 @@
 # backendproject
+This project is a combination of our backend skills along with our front end that we've learned throughout this class. It implements use of sequelize for our database to hold information for our users, and also peppers that we are showcasing. 
