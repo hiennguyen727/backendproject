@@ -207,11 +207,11 @@ app.post('/failedlogin', async (req, res) => {
   }
 });
 
-app.get('/security', async (req, res) => {
-  res.render('security');
+app.get('/resetpassword', async (req, res) => {
+  res.render('resetpassword');
 });
 
-app.post('/security', async (req, res) => {
+app.post('/resetpassword', async (req, res) => {
   const { email, secQuestion, secAnswer } = req.body;
   console.log('23', email, secQuestion, secAnswer);
   const foundUser = await User.findOne({
@@ -295,6 +295,18 @@ app.post('/remove-from-favorites', async (req, res) => {
 
     res.status(500).render('error', { errorMessage: 'Internal Server Error' });
   }
+});
+app.put('/resetpassword', async (req, res) => {
+  const { email, password, newPassword, secAnswer } = req.body;
+  console.log('226',req.body)
+  const nameRegex = /^[A-Za-z]+$/; // Only letters
+  const usernameRegex = /^[A-Za-z0-9]+$/; // Letters and numbers
+  const saltrounds = 10;
+  const foundUser = await User.findOne({ where: { email: email, secAnswer: secAnswer } });
+  User.update({
+    password: newPassword
+  }, {where: {secAnswer: secAnswer, email: email}})
+  res.send('Password reset successful')
 });
 
 app.listen(port, () => {
