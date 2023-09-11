@@ -12,10 +12,16 @@ const winston = require('winston');
 const port = 3003;
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(session({
+  secret: 'hello', // Change this to a secret key
+  resave: false,
+  saveUninitialized: true,
+}));
 // Helper function to check if the user is authenticated
 function isAuthenticated(req) {
   return !!req.session.userId; // Check if the user's ID is stored in the session
 }
+
 app.get('/logout', (req, res) => {
   // Clear the user session
   req.session.destroy((err) => {
@@ -111,6 +117,12 @@ app.get('/dashboard', requireAuth, async (req, res) => {
   try {
     const userId = req.cookies.userId;
 
+    if (!userId) {
+      console.log('User not authenticated');
+      res.redirect('/login'); // Redirect to the login page or handle it as per your requirements
+      return;
+    }
+
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -131,7 +143,6 @@ app.get('/dashboard', requireAuth, async (req, res) => {
     res.status(500).render('error', { errorMessage: 'Internal Server Error' });
   }
 });
-
 
 
 app.post('/login', async (req, res) => {
@@ -251,50 +262,41 @@ app.put('/resetpassword', (req, res) => {
 });
 
 app.post('/add-to-favorites', async (req, res) => {
-    const { userId, pepperId } = req.body;
-  
-    try {
-     
-      await Faves.create({
+  const { userId, pepperId } = req.body;
+
+  try {
+
+    await Faves.create({
+      userId: userId,
+      pepperId: pepperId,
+    });
+    res.redirect('/gallery');
+  } catch (error) {
+    console.error(error);
+    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
+
+app.post('/remove-from-favorites', async (req, res) => {
+  const { userId, pepperId } = req.body;
+
+  try {
+
+    await Faves.destroy({
+      where: {
         userId: userId,
         pepperId: pepperId,
-      });
-  //HELLO RESET POINT
-      
-      res.redirect('/gallery'); 
-    } catch (error) {
-      console.error(error);
-     
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-    }
-  });
-  
-  app.post('/remove-from-favorites', async (req, res) => {
-    const { userId, pepperId } = req.body;
-  
-    try {
-      
-      await Faves.destroy({
-        where: {
-          userId: userId,
-          pepperId: pepperId,
-        },
-      });
-  
-      
-      res.redirect('/dashboard'); 
-    } catch (error) {
-      console.error(error);
-      
-      res.status(500).render('error', { errorMessage: 'Internal Server Error' });
-    }
-  });
-  
+      },
+    });
 
-  
-  
-  
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error(error);
 
-app.listen(port,()=>{
-    console.log(`Server is running on ${port}`)
-})
+    res.status(500).render('error', { errorMessage: 'Internal Server Error' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
+});
