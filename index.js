@@ -257,7 +257,7 @@ app.post('/add-to-favorites', async (req, res) => {
         userId: userId,
         pepperId: pepperId,
       });
-  
+  //HELLO RESET POINT
       // Redirect the user back to the dashboard or another appropriate page
       res.redirect('/gallery'); // You can change the redirect URL as needed
     } catch (error) {
