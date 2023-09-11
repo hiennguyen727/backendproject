@@ -74,7 +74,7 @@ app.get('/gallery', async (req, res) => {
 app.get('/aboutus', (req, res) => {
   res.render('aboutus');
 });
-
+//^^^^ made aboutus lowercase in EJS cuz its messing with the site
 app.post('/register', async (req, res) => {
   const nameRegex = /^[A-Za-z]+$/;
   const usernameRegex = /^[A-Za-z0-9]+$/;
