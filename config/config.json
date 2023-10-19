@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "sdrzcanu",
-    "password": "6CaLmxG1k2y0XxtK2s4-ydY9DJGdCdNt",
-    "database": "sdrzcanu",
-    "host": "berry.db.elephantsql.com",
+    "username": "postgres",
+    "password": "myPassword",
+    "database": "postgres",
+    "host": "ec2-3-17-75-231.us-east-2.compute.amazonaws.com",
     "dialect": "postgres"
   },
   "test": {
@@ -17,7 +17,7 @@
     "username": "sdrzcanu",
     "password": "6CaLmxG1k2y0XxtK2s4-ydY9DJGdCdNt",
     "database": "sdrzcanu",
-    "host": "berry.db.elephantsql.com",
+    "host": "ec2-3-17-75-231.us-east-2.compute.amazonaws.com",
     "dialect": "postgres"
   }
 }
