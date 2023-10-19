@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "myPassword",
     "database": "postgres",
-    "host": "18.191.232.66",
+    "host": "ec2-3-17-75-231.us-east-2.compute.amazonaws.com",
     "dialect": "postgres"
   },
   "test": {
@@ -17,7 +17,7 @@
     "username": "postgres",
     "password": "myPassword",
     "database": "postgres",
-    "host": "18.191.232.66",
+    "host": "ec2-3-17-75-231.us-east-2.compute.amazonaws.com",
     "dialect": "postgres"
   }
 }
